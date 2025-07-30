@@ -33,7 +33,10 @@
  *      }
  *
  *  Customization:
- *   - Define OPT_ASSERT(cond) to set the assert method for opt. The default is libc assert.
+ *   - Define OPT_ASSERT(cond) before including header to set the assert method for opt.
+ *     The default is libc assert.
+ *   - Define OPT_AUTODEFINE_PRIMITIVES before including header to have opt.h automatically
+ *     generate optional types for most primitives
  *
  **/
 
