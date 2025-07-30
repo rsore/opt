@@ -3,10 +3,44 @@
 
 #include "minitest.h"
 
-MT_DEFINE_TEST(opt_initial_state)
+typedef struct {
+    int i;
+    char c;
+} Foo;
+OPT_DEFINE(Foo);
+
+MT_DEFINE_TEST(opt_init)
 {
-    Opt(int) opt = OPT_INIT;
-    MT_ASSERT_THAT(!opt_has_value(&opt));
+    {
+        Opt(int) opt = OPT_INIT;
+        MT_CHECK_THAT(!opt_has_value(&opt));
+        MT_CHECK_THAT(opt.value == 0);
+    }
+    {
+        Opt(Foo) opt = OPT_INIT;
+        MT_CHECK_THAT(!opt_has_value(&opt));
+        MT_CHECK_THAT(opt.value.i == 0);
+        MT_CHECK_THAT(opt.value.c == 0);
+    }
+}
+
+MT_DEFINE_TEST(opt_make)
+{
+    {
+        Opt(int) opt = OPT_MAKE(10);
+        MT_CHECK_THAT(opt_has_value(&opt));
+        MT_CHECK_THAT(opt.value == 10);
+    }
+    {
+#ifndef __cplusplus
+        Opt(Foo) opt = OPT_MAKE({.i = 1024, .c = 64});
+#else
+        Opt(Foo) opt = OPT_MAKE({1024, 64});
+#endif
+        MT_CHECK_THAT(opt_has_value(&opt));
+        MT_CHECK_THAT(opt_get(&opt).i == 1024);
+        MT_CHECK_THAT(opt_get(&opt).c == 64);
+    }
 }
 
 MT_DEFINE_TEST(opt_set_value)
@@ -76,7 +110,8 @@ MT_DEFINE_TEST(opt_clear)
 static void
 run_all_tests(void)
 {
-    MT_RUN_TEST(opt_initial_state);
+    MT_RUN_TEST(opt_init);
+    MT_RUN_TEST(opt_make);
     MT_RUN_TEST(opt_set_value);
     MT_RUN_TEST(opt_get_value);
     MT_RUN_TEST(opt_get_ptr);

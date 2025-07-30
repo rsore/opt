@@ -45,15 +45,21 @@
 #define OPT_ASSERT(cond) assert(cond)
 #endif
 
-#define Opt(underlying_type) Opt__##underlying_type
+#define Opt(underlying_type) Opt__internal__##underlying_type
 
 #define OPT_DEFINE(underlying_type)             \
     typedef struct {                            \
         underlying_type value;                  \
-        int has_value;                          \
+        int             has_value;              \
     } Opt(underlying_type)
 
+#ifndef __cplusplus
 #define OPT_INIT {0}
+#else
+#define OPT_INIT {}
+#endif
+
+#define OPT_MAKE(...) {__VA_ARGS__, 1}
 
 #define opt_has_value(opt) ((opt)->has_value)
 
@@ -64,8 +70,8 @@
     } while (0)
 
 #define opt_get(opt)        (OPT_ASSERT((opt)->has_value), (opt)->value)
-#define opt_get_ptr(var)    (OPT_ASSERT((var)->has_value), &((var)->value))
-#define opt_get_or(var, or) ((var)->has_value ? (var)->value : (or))
+#define opt_get_ptr(opt)    (OPT_ASSERT((opt)->has_value), &((opt)->value))
+#define opt_get_or(opt, fallback) ((opt)->has_value ? (opt)->value : (fallback))
 
 #define opt_clear(var)                          \
     do {                                        \
