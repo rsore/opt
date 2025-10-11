@@ -4,7 +4,7 @@
  *  | \/ | v_/ | |
  *   \__/|_|   |_|
  *
- *  opt.h — v1.0.0
+ *  opt.h — v1.0.1
  *
  *
  *  This file is placed in the public domain.
