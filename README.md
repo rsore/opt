@@ -3,7 +3,6 @@
 ![CI](https://github.com/rsore/opt/actions/workflows/test.yml/badge.svg)
 
 A minimal single‑header optional value library for C (and C++).
-Public domain (Unlicense).
 
 ## Features
 
@@ -76,3 +75,8 @@ OPT_DEFINE(int_ptr)   // Allowed
 - **C standards:** C99, C11, C17, C2x
 - **C++ standards:** C++11, C++14, C++17, C++20, C++2b
 - **Flags:** `-Wall -Wextra -Werror -pedantic-errors`
+
+## License
+
+`sp.h` is licensed under the 3-Clause BSD license.
+See the `LICENSE` file for details.
